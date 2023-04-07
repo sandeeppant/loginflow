@@ -1,4 +1,7 @@
+package com.example.loginflow;
+
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import org.junit.After;
@@ -19,7 +22,7 @@ public class LoginTest {
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("platformVersion", "10");
         capabilities.setCapability("deviceName", "emulator-5554");
-        capabilities.setCapability("appPackage", "com.opencartapp");
+        capabilities.setCapability("appPackage", "com.example.loginflow");
         capabilities.setCapability("appActivity", ".MainActivity");
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("autoGrantPermissions", true);
@@ -33,25 +36,24 @@ public class LoginTest {
 
     @Test
     public void testValidCredentials() {
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_login")).click();
-        driver.findElement(MobileBy.id("com.opencartapp:id/et_email")).sendKeys("validemail@example.com");
-        driver.findElement(MobileBy.id("com.opencartapp:id/et_password")).sendKeys("validpassword");
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_signin")).click();
-        assert(driver.findElement(MobileBy.id("com.opencartapp:id/tv_welcome")).isDisplayed());
+        driver.findElement(MobileBy.id("com.example.loginflow:id/login")).sendKeys("validemail@example.com");
+        driver.findElement(MobileBy.id("com.example.loginflow:id/password")).sendKeys("validpassword");
+        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
+        assert(driver.findElement(MobileBy.id("com.example.loginflow:id/tv_welcome")).isDisplayed());
     }
 
     @Test
     public void testInvalidCredentials() {
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_login")).click();
-        driver.findElement(MobileBy.id("com.opencartapp:id/et_email")).sendKeys("invalidemail@example.com");
-        driver.findElement(MobileBy.id("com.opencartapp:id/et_password")).sendKeys("invalidpassword");
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_signin")).click();
-        assert(driver.findElement(MobileBy.id("com.opencartapp:id/tv_error_message")).isDisplayed());
+
+        driver.findElement(MobileBy.id("com.example.loginflow:id/login")).sendKeys("invalidemail@example.com");
+        driver.findElement(MobileBy.id("com.example.loginflow:id/password")).sendKeys("invalidpassword");
+        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
+        assert(driver.findElement(MobileBy.id("com.example.loginflow:id/tv_error_message")).isDisplayed());
     }
 
     @Test
     public void testEmptyFields() {
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_login")).click();
-        driver.findElement(MobileBy.id("com.opencartapp:id/btn_signin")).click();
+        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
     }
 }
+
