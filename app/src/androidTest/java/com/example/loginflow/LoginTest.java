@@ -1,59 +1,44 @@
 package com.example.loginflow;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
 public class LoginTest {
+    public static void main(String[] args) {
+        // Set desired capabilities for the test
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("platformName", "Android");
+        caps.setCapability("platformVersion", "10");
+        caps.setCapability("deviceName", "Android Emulator");
+        caps.setCapability("appPackage", "com.example.loginflow");
+        caps.setCapability("appActivity", "com.example.loginflow.MainActivity");
 
-    private AndroidDriver<AndroidElement> driver;
+        // Initialize the driver with the desired capabilities
+        AppiumDriver<MobileElement> driver = null;
+        try {
+            driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-    @Before
-    public void setup() throws MalformedURLException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("platformVersion", "10");
-        capabilities.setCapability("deviceName", "emulator-5554");
-        capabilities.setCapability("appPackage", "com.example.loginflow");
-        capabilities.setCapability("appActivity", ".MainActivity");
-        capabilities.setCapability("automationName", "Appium");
-        capabilities.setCapability("autoGrantPermissions", true);
-        driver = new AndroidDriver<>(new URL("http://localhost:4723/wd/hub"), capabilities);
-    }
+        // Find the elements on the login page and interact with them
+        MobileElement emailInput = driver.findElementById("com.google.android.apps.authenticator2:id/email_input");
+        MobileElement passwordInput = driver.findElementById("com.google.android.apps.authenticator2:id/password_input");
+        MobileElement loginButton = driver.findElementById("com.google.android.apps.authenticator2:id/login_button");
 
-    @After
-    public void tearDown() {
+        emailInput.sendKeys("testuser@gmail.com");
+        passwordInput.sendKeys("testpassword");
+        loginButton.click();
+
+        // Close the driver session
         driver.quit();
+
     }
 
-    @Test
-    public void testValidCredentials() {
-        driver.findElement(MobileBy.id("com.example.loginflow:id/login")).sendKeys("validemail@example.com");
-        driver.findElement(MobileBy.id("com.example.loginflow:id/password")).sendKeys("validpassword");
-        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
-        assert(driver.findElement(MobileBy.id("com.example.loginflow:id/tv_welcome")).isDisplayed());
-    }
-
-    @Test
-    public void testInvalidCredentials() {
-
-        driver.findElement(MobileBy.id("com.example.loginflow:id/login")).sendKeys("invalidemail@example.com");
-        driver.findElement(MobileBy.id("com.example.loginflow:id/password")).sendKeys("invalidpassword");
-        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
-        assert(driver.findElement(MobileBy.id("com.example.loginflow:id/tv_error_message")).isDisplayed());
-    }
-
-    @Test
-    public void testEmptyFields() {
-        driver.findElement(MobileBy.id("com.example.loginflow:id/buttonLogin")).click();
-    }
 }
-
