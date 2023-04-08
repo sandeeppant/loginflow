@@ -8,12 +8,13 @@ import java.net.URL;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 
 public class LoginTest {
     public static void main(String[] args) {
         // Set desired capabilities for the test
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("platformName", "Android");
+        caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         caps.setCapability("platformVersion", "10");
         caps.setCapability("deviceName", "Android Emulator");
         caps.setCapability("appPackage", "com.example.loginflow");
